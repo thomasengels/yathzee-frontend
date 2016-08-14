@@ -1,0 +1,20 @@
+{
+  "name": "yathzee frontend 2de zit kdg",
+  "description": "2de zit integratieproject frontend",
+  "version": "0.0.0",
+  "homepage": "localhost",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-route": "~1.5.0",
+    "angular-loader": "~1.5.0",
+    "angular-mocks": "~1.5.0",
+    "html5-boilerplate": "^5.3.0",
+    "material-design-lite": "^1.1.3",
+    "underscore": "^1.8.3",
+    "ng-file-upload": "^12.0.4",
+    "pusher-angular": "^0.1.9",
+    "pusher-websocket-iso": "pusher#^3.2.1"
+  }
+}

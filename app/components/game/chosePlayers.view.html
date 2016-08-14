@@ -1,0 +1,30 @@
+<md-content layout-padding layout-wrap ng-controller="newGameController as vm">
+<h3>Nieuw spel</h3>
+<div layout="row"  layout-align="center center">
+    <div flex="30">
+        <md-input-container class="md-block" flex-gt-sm="">
+        <label>Zoek een vriend</label>
+        <input ng-model="vm.searchUser">
+        </md-input-container>
+        <p ng-repeat="player in vm.allUsers | filter: vm.searchUser" ng-click="vm.inviteFriend(player)">{{player.firstname}}</p>
+        <form ng-submit="vm.inviteNewUser()" name="vm.inviteNewUserForm">
+            <md-input-container class="md-block" flex-gt-sm="">
+            <label>Invite andere gebruiker</label>
+            <input ng-model="vm.emailAdresNewUser" type="email">
+            </md-input-container>
+            <p>{{vm.message}}</p>
+        </form>
+    </div>
+    <div layout="column" flex="30" layout-align="center center">
+        <div layout="row">
+        <span ng-if="!vm.chosenplayer">Nog geen speler gekozen</span>
+        <span ng-if="vm.chosenplayer">Gekozen speler is {{vm.chosenplayer.firstname}}</span>
+        <button ng-if="vm.chosenplayer" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ng-click="vm.chosenplayer = null">
+        <i class="material-icons">delete</i>
+        </button>
+        </div>
+        <md-button ng-disabled="!vm.chosenplayer" type="button" class="md-raised md-primary" ng-click="vm.createGame()">Ga verder met spelen</md-button>
+    </div>
+</div>
+
+</md-content>

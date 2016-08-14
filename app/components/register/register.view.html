@@ -1,0 +1,24 @@
+<md-content ng-controller="registerController as vm">
+	<div class="column" layout-align="center center" layout-align-xs>
+	<p>Heb je reeds een account? Ga dan naar <a href='/#login'>Login</a></p>
+	<form ng-submit="vm.register()" name="registerForm">
+		<md-input-container class="md-icon-float md-block">
+			<Label>Email</Label>
+			<input ng-model="vm.credentials.email" type="email" required>
+		</md-input-container>
+		<md-input-container class="md-icon-float md-block">
+			<Label>Firstname</Label>
+			<input ng-model="vm.credentials.firstname" type="text" required>
+		</md-input-container>
+		<md-input-container class="md-icon-float md-block">
+			<Label>Lastname</Label>
+			<input ng-model="vm.credentials.lastname" type="text" required>
+		</md-input-container>
+		<md-input-container class="md-icon-float md-block">
+			<Label>Password</Label>
+			<input ng-model="vm.credentials.password" type="password" required>
+		</md-input-container>
+		<md-button type="submit" class="md-raised md-primary">Registereren</md-button>
+	</form>
+	</div>
+</md-content>

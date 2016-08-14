@@ -1,0 +1,22 @@
+<md-content ng-controller="loginController as vm" layout-padding layout-wrap>
+<div flex="66" layout-align="center center">
+    <form name="loginForm">
+     <fieldset>
+      <legend>Login:</legend>
+      <md-input-container class="md-icon-float md-block">
+      <!-- Use floating label instead of placeholder -->
+      <label>Email</label>
+     <md-icon md-font-icon="android" aria-label="android"></md-icon>
+      <input ng-model="vm.credentials.email" type="text" name="email" required>
+    </md-input-container>
+         <md-input-container class="md-icon-float md-block">
+      <!-- Use floating label instead of placeholder -->
+      <label>Password</label>
+      <md-icon md-font-icon="android" aria-label="android"></md-icon>
+      <input ng-model="vm.credentials.password" type="password" name="password" required>
+    </md-input-container>
+     </fieldset>
+        <md-button type="submit" class="md-raised md-primary" ng-click="vm.login()">Login</md-button>
+    </form>
+    </div>
+</md-content>

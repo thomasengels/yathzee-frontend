@@ -1,0 +1,70 @@
+<body ng-controller="profileController as vm">
+  <md-content layout-padding layout-wrap>
+  <div layout="row"  layout-align="space-between center">
+    <h2>{{currentUser.email}}</h2>
+    <md-button type="button" class="md-raised md-primary" href="http://localhost:3000/#/newgame">Start nieuw spel</a></md-button>
+  </div>
+  <md-tabs md-dynamic-height="" md-border-bottom="">
+  <md-tab label="Profiel info">
+  <md-content layout-padding layout-wrap>
+  <div layout="row">
+    <div flex="20">
+      <img ng-src="assets/img/ic_person_outline_black_48dp.png" style="width: 100px; height:auto; ">
+      <button type="file" name="uploadButton" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ngf-select="submitProfileImage($file, $invalidFiles)" accept="image/*" ngf-max-height="3820" ngf-max-size="15MB"><i class="material-icons">file_upload</i><md-tooltip md-direction="top">
+          Verander profielfoto
+        </md-tooltip>
+</button>
+    </div>
+    <div flex="80">
+      <span>{{currentUser.firstname}}</span>
+      <span>{{currentUser.lastname}}</span>
+    </div>
+  </div>
+  <md-checkbox md-no-ink ng-model="vm.currentUser.privacyOn" aria-label="checkboxPrivacy">
+  Andere gebruikers kunnen mijn profiel bekijken
+  </md-checkbox>
+  </md-content>
+  </md-tab>
+  <md-tab label="Statistieken">
+  <md-content layout-padding layout-wrap>
+  <div layout="row">
+    <div flex="50">
+      <h3>Aantal gespeelde spellen</h3>
+    </div>
+    <div flex="50">
+      <h3>Aantal gespeelde spellen</h3>
+    </div>
+  </div>
+    <div layout="row">
+    <div flex="50">
+      <h3>Aantal gespeelde spellen</h3>
+    </div>
+    <div flex="50">
+      <h3>Aantal gespeelde spellen</h3>
+    </div>
+  </div>
+  </md-content>
+  </md-tab>
+  <md-tab label="Alle spelletjes">
+  <md-content layout-padding layout-wrap layout="row">
+  <md-card ng-repeat="game in myGames" flex="20">
+        <img ng-src="/assets/img/title-dices.png" class="md-card-image" alt="Washed Out">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{game._id}}</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button ng-href="http://localhost:3000/#/game/{{game._id}}">Action 1</md-button>
+          <md-button>Action 2</md-button>
+        </md-card-actions>
+      </md-card>
+
+      <!--md-button class="md-raised" ng-href="http://localhost:3000/#/game/{{game._id}}" aria-label="description" md-ripple-size="auto" ng-repeat="game in myGames">{{game._id}}</md-button>-->
+  </md-content>
+  </md-tab>
+  </md-tabs>
+  </md-content>
+</body>

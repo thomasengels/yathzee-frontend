@@ -1,0 +1,43 @@
+<md-content layout-padding layout-wrap ng-controller="gameController as vm">
+<!--<scoreboard spelers="vm.players"></scoreboard>-->
+<div layout="row" id="gameBoardView" ng-init="vm.triesLeft = 3">
+    <div layout="column" flex="45" ng-init="vm.dicesKept = []; vm.dicesToRoll = vm.dices; vm.dicesAreRolling = false">
+        <p>Het is de beurt aan {{vm.game.players[vm.whoIsPlayingIndex].id}}</p>
+        <div layout="row" class="diceSerie">
+            <img class="dice" ng-src="./assets/img/dice/dice{{dice}}.png" ng-disabled="!vm.dicesAreRolling" ng-click="vm.keepDice($index)" ng-repeat="dice in vm.dicesToRoll track by $index">
+        </div>
+        <md-button id="roleDicesBtn" class="md-raised" aria-label="description" md-ripple-size="full" ng-click="vm.rollDices()">Role ({{vm.triesLeft}} left)</md-button>
+        <div layout="row" class="diceSerie">
+            <img class="dice" ng-src="./assets/img/dice/dice{{dice}}.png"  ng-disabled="!vm.dicesAreRolling" ng-click="vm.addDiceToRoll($index)"  ng-repeat="dice in vm.dicesKept track by $index">
+        </div>
+    </div>
+    <div layout="row" id="scoreBoardView" flex="55">
+        <div layout="column" flex="30" style="margin-top: 1.52em">
+            <span>Een</span>
+            <span>Twee</span>
+            <span>Drie</span>
+            <span>Vier</span>
+            <span>Vijf</span>
+            <span>Zes</span>
+            <span class="sumValues">Som</span>
+            <span class="sumValues">Bonus</span>
+            <span>Drie dezelfde</span>
+            <span>Vier dezelfde</span>
+            <span>Full house</span>
+            <span>Kleine straat</span>
+            <span>Grote straat</span>
+            <span>Kans</span>
+            <span class="sumValues">YATHZEE</span>
+            <span class="sumValues">TOTALE SCORE</span>
+        </div>
+        <div layout="column" flex="35" style="text-align: center;">
+            <span>{{vm.game.players[0].id}}</span>
+            <span ng-repeat="key in vm.game.players[0].score">{{key}}</span>
+        </div>
+        <div layout="column" flex="35" style="text-align: center;">
+            <span>{{vm.game.players[1].id}}</span>
+             <span ng-repeat="key in vm.game.players[1].score">{{key}}</span>
+        </div>
+    </div>
+</div>
+</md-content>

@@ -1,0 +1,17 @@
+<md-content layout-padding layout-wrap>
+  <div layout="row">
+    <div flex="20">
+      <img ng-src="assets/img/ic_person_outline_black_48dp.png" style="width: 100px; height:auto; ">
+      <button class="mdl-button mdl-js-button mdl-button--icon">
+  <i class="material-icons">photo_camera</i>
+</button>
+    </div>
+    <div flex="80">
+      <span>{{currentUser.firstname}}</span>
+      <span>{{currentUser.lastname}}</span>
+    </div>
+  </div>
+  <md-checkbox md-no-ink ng-model="vm.currentUser.privacyOn" aria-label="checkboxPrivacy">
+  Andere gebruikers kunnen mijn profiel bekijken
+  </md-checkbox>
+  </md-content>
