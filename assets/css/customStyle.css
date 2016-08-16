@@ -2,6 +2,14 @@ body{
   background: #E0E0E0;
 }
 
+.loginFrom{
+  background: #FFFFFF;
+  margin: auto;
+  box-shadow: 10px 10px 5px #888888;
+  margin-top: 5%;
+  text-align: center;
+}
+
 #gameBoardView {
     margin: auto;
     margin-top: 10%;
@@ -14,6 +22,14 @@ body{
 #gameBoardView p{
   color: black;
   text-align: center;
+}
+
+#notificationmenu {
+    border: 10px solid transparent;
+    padding: 15px;
+    -webkit-border-image: url(/assets/img/notificationmenuBorder.png) 30 stretch; /* Safari 3.1-5 */
+    -o-border-image: url(/assets/img/notificationmenuBorder.png) 30 stretch; /* Opera 11-12.1 */
+    border-image: url(/assets/img/notificationmenuBorder.png) 30 stretch;
 }
 
 .dice{
@@ -42,6 +58,12 @@ body{
     padding: 1.25em;  /* 20/16 */
     background-color: #1d1d1d;
     float:left;
+}
+
+#scoreBoardView span {
+    border-style: solid;
+    border-color: #FFFFFF !important;
+    border-width: 1px;
 }
 
 .sumValues {

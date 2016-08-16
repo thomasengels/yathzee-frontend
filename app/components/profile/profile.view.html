@@ -48,7 +48,7 @@
   <md-tab label="Alle spelletjes">
   <md-content layout-padding layout-wrap layout="row">
   <md-card ng-repeat="game in myGames" flex="20">
-        <img ng-src="/assets/img/title-dices.png" class="md-card-image" alt="Washed Out">
+        <img ng-src="/assets/img/title-dices.png" style="background: #78909C" class="md-card-image" alt="Washed Out">
         <md-card-title>
           <md-card-title-text>
             <span class="md-headline">{{game._id}}</span>
@@ -57,7 +57,7 @@
         <md-card-content>
         </md-card-content>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button ng-href="http://localhost:3000/#/game/{{game._id}}">Action 1</md-button>
+          <md-button ng-href="http://localhost:3000/#/game/{{game._id}}">Speel verder</md-button>
           <md-button>Action 2</md-button>
         </md-card-actions>
       </md-card>

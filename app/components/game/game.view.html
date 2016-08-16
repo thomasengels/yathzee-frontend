@@ -1,12 +1,12 @@
 <md-content layout-padding layout-wrap ng-controller="gameController as vm">
 <!--<scoreboard spelers="vm.players"></scoreboard>-->
 <div layout="row" id="gameBoardView" ng-init="vm.triesLeft = 3">
-    <div layout="column" flex="45" ng-init="vm.dicesKept = []; vm.dicesToRoll = vm.dices; vm.dicesAreRolling = false">
+    <div layout="column" flex="45" ng-init="vm.dicesKept = []; vm.dicesToRoll = vm.dices;">
         <p>Het is de beurt aan {{vm.game.players[vm.whoIsPlayingIndex].id}}</p>
         <div layout="row" class="diceSerie">
-            <img class="dice" ng-src="./assets/img/dice/dice{{dice}}.png" ng-disabled="!vm.dicesAreRolling" ng-click="vm.keepDice($index)" ng-repeat="dice in vm.dicesToRoll track by $index">
+            <img class="dice" ng-src="./assets/img/dice/dice{{dice}}.png" ng-disabled="vm.dicesAreRolling" ng-click="vm.keepDice($index)" ng-repeat="dice in vm.dicesToRoll track by $index">
         </div>
-        <md-button id="roleDicesBtn" class="md-raised" aria-label="description" md-ripple-size="full" ng-click="vm.rollDices()">Role ({{vm.triesLeft}} left)</md-button>
+        <md-button id="roleDicesBtn" class="md-raised" aria-label="description" md-ripple-size="full" ng-click="vm.rollDices()" ng-show="!vm.dicesAreRolling">Role ({{vm.triesLeft}} left)</md-button>
         <div layout="row" class="diceSerie">
             <img class="dice" ng-src="./assets/img/dice/dice{{dice}}.png"  ng-disabled="!vm.dicesAreRolling" ng-click="vm.addDiceToRoll($index)"  ng-repeat="dice in vm.dicesKept track by $index">
         </div>

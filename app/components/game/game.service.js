@@ -12,13 +12,16 @@
             "Vier": 0,
             "Vijf": 0,
             "Zes": 0,
+            "Som":0,
+            "Bonus":0,
             "Drie dezelfde": 0,
             "Vier dezelfde": 0,
             "Full house": 0,
             "Kleine straat": 0,
             "Grote straat": 0,
             "Kans": 0,
-            "YATHZEE": 0
+            "YATHZEE": 0,
+            "Totale score": 0
         };
 
         updateScoresOfGame = function(gameId, scores, cb){

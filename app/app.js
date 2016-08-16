@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', ['ngMaterial','dashboard-environment-configuration','pusher-angular','ngAnimate','ngAria','ui.router','underscore','ngFileUpload'])
+angular.module('myApp', ['ngMaterial','dashboard-environment-configuration','pusher-angular','ngAnimate','ngAria','ui.router','underscore','ngFileUpload','ui.bootstrap'])
     
     .config(['$mdThemingProvider','$stateProvider', '$urlRouterProvider','$mdIconProvider',
     function($mdThemingProvider, $stateProvider, $urlRouterProvider, $mdIconProvider){
@@ -9,7 +9,7 @@ angular.module('myApp', ['ngMaterial','dashboard-environment-configuration','pus
         $mdIconProvider
            .defaultIconSet('assets/libs/bower_components', 24);    
         
-        $urlRouterProvider.otherwise('home');
+        $urlRouterProvider.otherwise('error');
         
         $stateProvider 
         .state('login', {
@@ -40,6 +40,10 @@ angular.module('myApp', ['ngMaterial','dashboard-environment-configuration','pus
             url: '/game/:gameId',
             templateUrl:'app/components/game/game.view.html',
             controller:'gameController'
+        })
+        .state('error', {
+            url:'/error',
+            templateUrl:'app/shared/error.view.html'
         });
 
         $mdThemingProvider.theme('default')

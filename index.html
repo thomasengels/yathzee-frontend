@@ -12,11 +12,13 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="assets/libs/bower_components/material-design-lite/material.min.css">
         <link type="text/css" rel="stylesheet" href="assets/css/customStyle.css">
+        <link type="text/css" rel="stylesheet" href="assets/libs/bower_components/angular-bootstrap/ui-bootstrap-csp.css">
     </head>
     <body>
     <script src="//js.pusher.com/3.0/pusher.min.js"></script>
         <script src="assets/libs/bower_components/material-design-lite/material.min.js"></script>
         <script src="assets/libs/bower_components/angular/angular.min.js"></script>
+        <script src="assets/libs/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         <script src="assets/libs/bower_components/angular-animate/angular-animate.min.js"></script>
         <script src="assets/libs/bower_components/angular-aria/angular-aria.min.js"></script>
         <script src="assets/libs/bower_components/angular-messages/angular-messages.min.js"></script>
@@ -51,7 +53,11 @@
                     <div class="mdl-layout-spacer"></div>
                     <!-- Navigation. We hide it in small screens. -->
                     <nav class="mdl-navigation mdl-layout--large-screen-only">
-                        <div class="material-icons mdl-badge mdl-badge--overlap" ng-if="vm.isLoggedIn()" data-badge="1">notifications</div>
+            
+                        <div class="material-icons mdl-badge mdl-badge--overlap" ng-if="vm.isLoggedIn()" data-badge="1" is-open="open">notifications</div>
+                        <div class="notificationmenu" ng-if="open">
+                            <span>{{open}}</span>
+                        </div>
                         <a class="mdl-navigation__link" href="http://localhost:3000/#/login" ng-if="!vm.isLoggedIn()"><i class="material-icons">forum</i>Login</a>
                         <a class="mdl-navigation__link" href="http://localhost:3000/#/register" ng-if="!vm.isLoggedIn()"><i class="material-icons">forum</i>Registreer</a>
                         <a class="mdl-navigation__link" href="http://localhost:3000/#/login" ng-click="vm.logout()" ng-if="vm.isLoggedIn()"><i class="material-icons">exit_to_app</i>Logout</a>
@@ -59,6 +65,7 @@
                 </div>
             </header>
             <main ui-view></main>
+            <!--
             <footer class="mdl-mini-footer footer">
                 <div class="mdl-mini-footer__left-section">
                     <div class="mdl-logo">Title</div>
@@ -67,7 +74,7 @@
                         <li><a href="#">Privacy & Terms</a></li>
                     </ul>
                 </div>
-            </footer>
+            </footer>-->
         </div>
     </body>
 </html>
