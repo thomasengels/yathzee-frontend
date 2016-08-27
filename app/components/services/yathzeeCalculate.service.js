@@ -31,11 +31,19 @@ every api call
         }
 
         isSmallStraight = function(dices) {
-            return getStraight(dices) >= 4
+            if(getStraight(dices) >= 4){
+                return 30;
+            }
+
+            return 0;
         }
 
         isLargeStraight = function(dices) {
-            return getStraight(dices) === 5
+            if(getStraight(dices) === 5){
+                return 40;
+            }
+
+            return 0;
         }
 
         getSameCount = function(dices) {
@@ -65,20 +73,37 @@ every api call
         }
 
         threeOfAKind = function(dices) {
-            return manyOfAKind(dices, 3)
+            if(manyOfAKind(dices, 3)){
+                return dices.reduce((a, b) => a + b, 0);
+            }
+
+            return 0;
         }
 
         fourOfAKind = function(dices) {
-            return manyOfAKind(dices, 4)
+            if(manyOfAKind(dices, 4)){
+                return dices.reduce((a, b) => a + b, 0);
+            }
+
+            return 0;
         }
 
         yahtzee = function(dices) {
-            return manyOfAKind(dices, 5)
+            if(manyOfAKind(dices, 5)){
+                return 50;
+            }
+
+            return 0;
         }
 
         fullHouse = function(dices) {
             var results = getSameCount(dices)
-            return results.indexOf(2) > -1 && results.indexOf(3) > -1
+
+            if(results.indexOf(2) > -1 && results.indexOf(3) > -1){
+                return 25;
+            }
+
+            return 0;
         }
         return {
 

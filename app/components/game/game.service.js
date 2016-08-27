@@ -1,33 +1,19 @@
 (function() {
     angular.module('myApp').service('gameService', gameService);
 
-    gameService.$inject = ['apiFactory', 'yathzeeCalculateService'];
+    gameService.$inject = ['apiFactory', 'yathzeeCalculateService','_'];
 
-    function gameService(apiFactory, yathzeeCalculateService) {
+    function gameService(apiFactory, yathzeeCalculateService,_) {
 
-        yathzeeScoreCat = {
-            "Een": 0,
-            "Twee": 0,
-            "Drie": 0,
-            "Vier": 0,
-            "Vijf": 0,
-            "Zes": 0,
-            "Som":0,
-            "Bonus":0,
-            "Drie dezelfde": 0,
-            "Vier dezelfde": 0,
-            "Full house": 0,
-            "Kleine straat": 0,
-            "Grote straat": 0,
-            "Kans": 0,
-            "YATHZEE": 0,
-            "Totale score": 0
-        };
+        var keys = ["Een", "Twee", "Drie", "Vier", "Vijf", "Zes", "GroteStraat", "KleineStraat", "Fullhouse", "DrieDezelfde", "VierDezelfde", "Yathzee","Kans"];
 
-        updateScoresOfGame = function(gameId, scores, cb){
-            apiFactory.PUT('/games/' + gameId + '/scores', {"scores" : scores},
-                function(err, res){
-                    if(err) cb(err,null);
+        updateScoresOfGame = function(gameId, scores, cb) {
+            console.log("we zitten in de update functie" + scores);
+            apiFactory.PUT('/games/' + gameId + '/scores', {
+                    "scores": scores
+                },
+                function(err, res) {
+                    if (err) cb(err, null);
                     else cb(null, res.game);
                 });
         };
@@ -65,98 +51,80 @@
         };
 
         whoWillStartTheGame = function(amountOfPlayers) {
-                return Math.floor(Math.random() * amountOfPlayers);
+            return Math.floor(Math.random() * amountOfPlayers);
         };
 
         estimateYathzeeScores = function(dices) {
-        	var temp = null;
+            var temp = null;
+            var previousScore = [];
 
-        	for(var key in yathzeeScoreCat){
-        		if(key == "Een"){
-        			temp = yathzeeCalculateService.getSameCount(dices);
-        			if(!angular.isUndefined(temp["1"])){
-        				yathzeeScoreCat[key] = 1 * temp["1"];
-        			}
-        		}else if(key == "Twee"){
-        			 temp = yathzeeCalculateService.getSameCount(dices);
-        			if(!angular.isUndefined(temp["1"])){
-        				yathzeeScoreCat[key] = 2 * temp["2"];
-        			}
-        			     
-        		}else if(key == "Drie"){
-        		
-        			     			temp = yathzeeCalculateService.getSameCount(dices);
-        			if(!angular.isUndefined(temp["1"])){
-        				yathzeeScoreCat[key] = 3 * temp["3"];
-        			}
-        			        			
-        		}else if(key == "Vier"){
-        		
-        			     			temp = yathzeeCalculateService.getSameCount(dices);
-        			if(!angular.isUndefined(temp["1"])){
-        				yathzeeScoreCat[key] = 4 * temp["4"];
-        			}
-        			        		
-        		}else if(key == "Vijf"){
-        	
-        			     			temp = yathzeeCalculateService.getSameCount(dices);
-        			if(!angular.isUndefined(temp["1"])){
-        				yathzeeScoreCat[key] =5 * temp["5"];
-        			}
-        			        		
-        		}else if(key == "Zes"){
-        	
-        			     			temp = yathzeeCalculateService.getSameCount(dices);
-        			if(!angular.isUndefined(temp["1"])){
-        				yathzeeScoreCat[key] = 6 * temp["6"];
-        			}
+            for (var key in keys) {
+                if (keys[key] === "Een") {
 
-        		}
-        		else if(key == "Drie dezelfde"){
-        
-        			yathzeeScoreCat[key] = yathzeeCalculateService.threeOfAKind(dices);
-        			        		
-        		}	else if(key == "Vier dezelfde"){
-        			
-        			yathzeeScoreCat[key] = yathzeeCalculateService.threeOfAKind(dices);
-        			        			
-        		}
-        		else if(key == "Full house"){
-        		
-        			yathzeeScoreCat[key] = yathzeeCalculateService.fullHouse(dices);
-        			        			
-        		}
-        		else if(key == "Kleine straat"){
-        	
-        			yathzeeScoreCat[key] = yathzeeCalculateService.isSmallStraight(dices);
-        			        		
-        		}
-        		else if(key == "Grote straat"){
-        	
-        			yathzeeScoreCat[key] = yathzeeCalculateService.isLargeStraight(dices);
-        			        		
-        		}else if(key == "Kans"){
-        			
-        			yathzeeScoreCat[key] = yathzeeCalculateService.sum(dices);
-        			        	
-        		}else if(key == "YATHZEE"){
-       
-        			yathzeeScoreCat[key] = yathzeeCalculateService.yahtzee(dices);
-        			        		
-        		}
-        	}
+                     previousScore[keys[key]] = yathzeeCalculateService.getAmountOfArrayNumber(dices, 1) * 1;
 
-        	return yathzeeScoreCat;
+                } else if (keys[key] === "Twee") {
+
+                     previousScore[keys[key]] = yathzeeCalculateService.getAmountOfArrayNumber(dices, 2) * 2;
+
+                } else if (keys[key] === "Drie") {
+
+                     previousScore[keys[key]] = yathzeeCalculateService.getAmountOfArrayNumber(dices, 3) * 3;
+
+                } else if (keys[key] === "Vier") {
+
+                     previousScore[keys[key]] = yathzeeCalculateService.getAmountOfArrayNumber(dices, 4) * 4;
+
+                } else if (keys[key] === "Vijf") {
+
+                     previousScore[keys[key]] = yathzeeCalculateService.getAmountOfArrayNumber(dices, 5) * 5;
+
+                } else if (keys[key] === "Zes") {
+
+                     previousScore[keys[key]] = yathzeeCalculateService.getAmountOfArrayNumber(dices, 6) * 6;
+
+                } else if (keys[key] === "DrieDezelfde") {
+
+                    previousScore[keys[key]] = yathzeeCalculateService.threeOfAKind(dices);
+
+                } else if (keys[key] === "VierDezelfde") {
+
+                    previousScore[keys[key]] = yathzeeCalculateService.fourOfAKind(dices);
+
+                } else if (keys[key] === "Fullhouse") {
+
+                    previousScore[keys[key]] = yathzeeCalculateService.fullHouse(dices);
+
+                } else if (keys[key] === "KleineStraat") {
+
+                    previousScore[keys[key]] = yathzeeCalculateService.isSmallStraight(dices);
+
+                } else if (keys[key] === "GroteStraat") {
+
+                    previousScore[keys[key]] = yathzeeCalculateService.isLargeStraight(dices);
+
+                } else if (keys[key] === "Kans") {
+
+                    previousScore[keys[key]] = yathzeeCalculateService.sum(dices);
+
+                } else if (keys[key] === "Yathzee") {
+
+                    previousScore[keys[key]] = yathzeeCalculateService.yahtzee(dices);
+
+                }
+            }
+
+            return previousScore;
         }
 
         return {
-            updateScoresOfGame:updateScoresOfGame,
+            updateScoresOfGame: updateScoresOfGame,
             createNewGame: createNewGame,
             getGameById: getGameById,
             getGamesFrom: getGamesFrom,
             getAllGames: getAllGames,
             whoWillStartTheGame: whoWillStartTheGame,
-            estimateYathzeeScores : estimateYathzeeScores
+            estimateYathzeeScores: estimateYathzeeScores
         };
     }
 })();

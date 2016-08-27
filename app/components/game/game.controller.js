@@ -41,7 +41,12 @@ function newGameController(profileService, authentication, gameService, _) {
         }));
 
         gameService.createNewGame(game, function(err, game) {
-
+             if(game){
+                console.log("game is created");
+             }   
+             else{
+                console.log("error, game not created");
+             }
         });
 
 
@@ -71,12 +76,19 @@ function gameController(gameService, _, profileService, $stateParams, $interval,
 
     vm.dicesAreRolling = false;
 
+    vm.estimatedScores = [];
+
+    vm.getNameOfUserById = function(id){
+        return profileService.getUsers().filter(function(user){ 
+            return user._id === id; })[0];
+    }
+
 
     gameService.getGameById(vm.gameId, function(err, game) {
         if (err) {
         	$scope.$apply(function() {
             $location.path("http://localhost:3000/#/error");
-});
+            });
 
         } else {
             vm.game = game;
@@ -92,10 +104,16 @@ function gameController(gameService, _, profileService, $stateParams, $interval,
 
     });
 
+    vm.scoreIsASum = function(scoreType){
+        var sumScores = ['Total','Kans','LowerTotaal','UpperTotal'];
+
+        return (sumScores.indexOf(scoreType) >= 0);
+    }
+
 
     vm.rollDices = function() {
-        vm.dicesAreRolling = true;
-        vm.state = "rolling";
+
+        vm.canPlayerRole = false;
 
         $interval(function() {
             for (var j = 0; j < vm.dicesToRoll.length; j++) {
@@ -105,21 +123,24 @@ function gameController(gameService, _, profileService, $stateParams, $interval,
 
         vm.triesLeft = vm.triesLeft - 1;
 
-        if (vm.triesLeft === 0) {
-            //changePlayer();
-            updateScore();
+        if (vm.triesLeft <= 0) {
+            vm.canPlayerRole = false;
         }
-        vm.dicesAreRolling = false;
-
-        vm.state = "chooseScore";
+        else{
+            vm.canPlayerRole = true;
+        }
     }
 
-    vm.chooseScore = function(index) {
-
+    vm.chooseScore = function(key) {
+        vm.game.scores[vm.whoIsPlayingIndex][key] = vm.estimatedScores[vm.whoIsPlayingIndex][key];
+        updateScore();
+        changePlayer();
     }
 
     vm.changeIdToUserName = function(userId) {
-        profileService.getUserByEmail(userId);
+        profileService.getUserByIdWithPromise(userId).then(function(user){
+            return user.firstName;
+        });
     }
 
     function changePlayer() {
@@ -132,15 +153,33 @@ function gameController(gameService, _, profileService, $stateParams, $interval,
         }
     }
 
+    vm.canIshowEstimatedScores = function(playerIndex, score){
+        //console.log("Player " + vm.whoIsPlayingIndex + " Tries " + vm.triesLeft + " score " + score + " diceskept " + vm.dicesKept);
+        if(playerIndex === vm.whoIsPlayingIndex){
+            if(vm.triesLeft === 0){
+                if(score === 0){
+                    if(vm.dicesToRoll.length === 0){
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        return false;
+    }
+
     vm.keepDice = function(diceIndex) {
         vm.dicesKept.push(vm.dicesToRoll[diceIndex]);
         vm.dicesToRoll.splice(diceIndex, 1);
 
-        if (vm.dicesKept.length == 5) {
-            vm.game.players[vm.whoIsPlayingIndex].score = gameService.estimateYathzeeScores(vm.dicesKept);
+        
+        if(vm.dicesToRoll.length === 0 & vm.triesLeft === 0){
+            vm.estimatedScores[vm.whoIsPlayingIndex] = gameService.estimateYathzeeScores(vm.dicesKept);
+            console.log(vm.estimatedScores);
         }
-
-        console.log(vm.game);
     }
 
     vm.addDiceToRoll = function(diceIndex) {
@@ -149,9 +188,9 @@ function gameController(gameService, _, profileService, $stateParams, $interval,
     }
 
     function updateScore() {
-        var scores = [vm.game.players[0].score, vm.game.players[1].score];
-        gameService.updateScoresOfGame(vm.game._id, scores, function(err, game) {
-            vm.game = game;
+        console.log("controller update scores");
+        gameService.updateScoresOfGame(vm.game._id, vm.game.scores, function(err, game) {
+            vm.game.scores = game.scores;
         });
     }
 

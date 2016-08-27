@@ -2,41 +2,32 @@
 <!--<scoreboard spelers="vm.players"></scoreboard>-->
 <div layout="row" id="gameBoardView" ng-init="vm.triesLeft = 3">
     <div layout="column" flex="45" ng-init="vm.dicesKept = []; vm.dicesToRoll = vm.dices;">
-        <p>Het is de beurt aan {{vm.game.players[vm.whoIsPlayingIndex].id}}</p>
-        <div layout="row" class="diceSerie">
-            <img class="dice" ng-src="./assets/img/dice/dice{{dice}}.png" ng-disabled="vm.dicesAreRolling" ng-click="vm.keepDice($index)" ng-repeat="dice in vm.dicesToRoll track by $index">
+        <p>Het is de beurt aan {{vm.getNameOfUserById(vm.game.players[vm.whoIsPlayingIndex].id).firstname}}</p>
+         <div class='md-padding diceSerie' layout="row" layout-wrap>
+            <img class="dice" ng-src="./assets/img/dice/dice{{dice}}.png" ng-click="vm.keepDice($index)" ng-repeat="dice in vm.dicesToRoll track by $index">
         </div>
-        <md-button id="roleDicesBtn" class="md-raised" aria-label="description" md-ripple-size="full" ng-click="vm.rollDices()" ng-show="!vm.dicesAreRolling">Role ({{vm.triesLeft}} left)</md-button>
+        <md-button id="roleDicesBtn" class="md-raised" ng-disabled="vm.triesLeft <= 0" aria-label="description" md-ripple-size="full" ng-click="vm.rollDices()" ng-show="!vm.dicesAreRolling" style="min-width: 70px">Role ({{vm.triesLeft}} left)</md-button>
         <div layout="row" class="diceSerie">
-            <img class="dice" ng-src="./assets/img/dice/dice{{dice}}.png"  ng-disabled="!vm.dicesAreRolling" ng-click="vm.addDiceToRoll($index)"  ng-repeat="dice in vm.dicesKept track by $index">
+            <img class="dice" ng-src="./assets/img/dice/dice{{dice}}.png" ng-click="vm.addDiceToRoll($index)"  ng-repeat="dice in vm.dicesKept track by $index">
+        </div>
+        <div layout="row">
+        <chat game="vm.gameId" style="width:100%"></chat>
         </div>
     </div>
     <div layout="row" id="scoreBoardView" flex="55">
-        <div layout="column" flex="30" style="margin-top: 1.52em">
-            <span>Een</span>
-            <span>Twee</span>
-            <span>Drie</span>
-            <span>Vier</span>
-            <span>Vijf</span>
-            <span>Zes</span>
-            <span class="sumValues">Som</span>
-            <span class="sumValues">Bonus</span>
-            <span>Drie dezelfde</span>
-            <span>Vier dezelfde</span>
-            <span>Full house</span>
-            <span>Kleine straat</span>
-            <span>Grote straat</span>
-            <span>Kans</span>
-            <span class="sumValues">YATHZEE</span>
-            <span class="sumValues">TOTALE SCORE</span>
+        <div layout="column" flex="100" style="margin-top: 1.52em">
+        <div class="scoreBoardHeader" layout="row" flex="100">
+            <span flex="30">User Id</span>
+            <span flex="35" ng-repeat="user in vm.game.players">{{vm.getNameOfUserById(user.id).firstname}}</span>
         </div>
-        <div layout="column" flex="35" style="text-align: center;">
-            <span>{{vm.game.players[0].id}}</span>
-            <span ng-repeat="key in vm.game.players[0].score">{{key}}</span>
-        </div>
-        <div layout="column" flex="35" style="text-align: center;">
-            <span>{{vm.game.players[1].id}}</span>
-             <span ng-repeat="key in vm.game.players[1].score">{{key}}</span>
+        <div ng-if="key !== '_id'" ng-class="{'TotalScore' : vm.scoreIsASum(key), 'NormalScore' : !vm.scoreIsASum(key)}" layout="row" ng-repeat="(key, val) in vm.game.scores[0]" flex="100">
+               <span flex="30">{{key}}</span>
+
+                <span flex="35" ng-if="!vm.canIshowEstimatedScores(0, vm.game.scores[0][key])">{{vm.game.scores[0][key]}}</span>
+                <strong flex="35" style="font-weight: bold; color: red" ng-click="vm.chooseScore(key)" ng-if="vm.canIshowEstimatedScores(0, vm.game.scores[0][key])">{{vm.estimatedScores[0][key]}}</strong>
+
+                <span flex="35" ng-if="!vm.canIshowEstimatedScores(1, vm.game.scores[1][key])">{{vm.game.scores[1][key]}}</span>
+                <strong flex="35" style="font-weight: bold; color: red" ng-click="vm.chooseScore(key)" ng-if="vm.canIshowEstimatedScores(1, vm.game.scores[1][key])">{{vm.estimatedScores[0][key]}}</strong>
         </div>
     </div>
 </div>

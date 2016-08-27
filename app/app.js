@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', ['ngMaterial','dashboard-environment-configuration','pusher-angular','ngAnimate','ngAria','ui.router','underscore','ngFileUpload','ui.bootstrap'])
+angular.module('myApp', ['luegg.directives','ui.bootstrap','ngMaterial','dashboard-environment-configuration','pusher-angular','ngAnimate','ngAria','ui.router','underscore','ngFileUpload','angular.filter'])
     
     .config(['$mdThemingProvider','$stateProvider', '$urlRouterProvider','$mdIconProvider',
     function($mdThemingProvider, $stateProvider, $urlRouterProvider, $mdIconProvider){
@@ -47,7 +47,21 @@ angular.module('myApp', ['ngMaterial','dashboard-environment-configuration','pus
         });
 
         $mdThemingProvider.theme('default')
-            .primaryPalette('red')
-            .accentPalette('amber');
+            .primaryPalette('indigo')
+            .accentPalette('green');
     }
-]);
+])
+
+    .run(function($rootScope, $state, $location, authentication){
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+        let loggedIn = authentication.isLoggedIn();
+        if  (toState.name !== 'login' && !loggedIn){
+            $rootScope.returnToState = toState.url;
+            $rootScope.returnToStateParams = toParams.gameId;
+            $location.path('/login');
+        }
+        else if (toState.name === 'login' && loggedIn){
+            $location.path('/home');
+        }
+    });
+});;

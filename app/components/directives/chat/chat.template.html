@@ -1,0 +1,17 @@
+<md-content layout-padding layout-wrap>
+    <md-list flex="" style="max-height: 200px; overflow-y: scroll" scroll-glue-bottom="glued">
+    	<md-list-item class="md-2-line" ng-repeat="chat in dvm.chats" style="text-align: left">
+    	  <div class="md-list-item-text">
+    	  <h3>{{chat.text}}</h3>
+        <h6>{{chat.when | date:'short'}}</h6>
+    	  </div>
+    	</md-list-item>
+    </md-list>
+    <div layout="row">
+     <md-input-container class="md-block" style="width: 100%">
+          <label>Chat message</label>
+          <textarea ng-model="dvm.sendText" md-maxlength="150" rows="5" md-select-on-focus=""></textarea>
+        </md-input-container>
+    	<md-button class="md-raised md-accent" ng-click="dvm.sendChat(dvm.sendText)" ng-disabled="!dvm.sendText" aria-label="message" md-no-ink="true" md-ripple-size="full">send</md-button>
+    </div>
+</md-content>

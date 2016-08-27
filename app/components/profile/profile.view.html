@@ -2,68 +2,104 @@
   <md-content layout-padding layout-wrap>
   <div layout="row"  layout-align="space-between center">
     <h2>{{currentUser.email}}</h2>
-    <md-button type="button" class="md-raised md-primary" href="http://localhost:3000/#/newgame">Start nieuw spel</a></md-button>
+    <md-button type="button" class="md-raised md-primary" ng-href="http://localhost:3000/#/newgame">Start nieuw spel</a></md-button>
   </div>
-  <md-tabs md-dynamic-height="" md-border-bottom="">
+  <md-tabs md-stretch-tabs="always" md-center-tabs="true" md-dynamic-height="true">
   <md-tab label="Profiel info">
-  <md-content layout-padding layout-wrap>
-  <div layout="row">
-    <div flex="20">
-      <img ng-src="assets/img/ic_person_outline_black_48dp.png" style="width: 100px; height:auto; ">
-      <button type="file" name="uploadButton" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ngf-select="submitProfileImage($file, $invalidFiles)" accept="image/*" ngf-max-height="3820" ngf-max-size="15MB"><i class="material-icons">file_upload</i><md-tooltip md-direction="top">
-          Verander profielfoto
-        </md-tooltip>
-</button>
-    </div>
-    <div flex="80">
-      <span>{{currentUser.firstname}}</span>
-      <span>{{currentUser.lastname}}</span>
-    </div>
-  </div>
-  <md-checkbox md-no-ink ng-model="vm.currentUser.privacyOn" aria-label="checkboxPrivacy">
-  Andere gebruikers kunnen mijn profiel bekijken
-  </md-checkbox>
-  </md-content>
+    <md-content layout-padding layout-wrap>
+      <div layout="row">
+        <div flex="20">
+          <img data-ng-src="data:image/jpg;base64,{{currentUser.avatar.data.join('')}}" onerror="this.src='assets/img/ic_person_outline_black_48dp.png'" style="width: 100px; height:auto; ">
+          <button type="file" name="uploadButton" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored" ngf-select="submitProfileImage($file, $invalidFiles)" accept="image/*" ngf-max-height="3820" ngf-max-size="15MB"><i class="material-icons">file_upload</i>
+            <md-tooltip md-direction="top">
+              Verander profielfoto
+            </md-tooltip>
+          </button>
+        </div>
+        <div flex="80">
+            <span>{{currentUser.firstname}}</span>
+            <span>{{currentUser.lastname}}</span>
+        </div>
+      </div>
+      <md-checkbox md-no-ink ng-model="vm.currentUser.privacyOn" aria-label="checkboxPrivacy">
+      Andere gebruikers kunnen mijn profiel bekijken
+      </md-checkbox>
+    </md-content>
   </md-tab>
   <md-tab label="Statistieken">
-  <md-content layout-padding layout-wrap>
-  <div layout="row">
-    <div flex="50">
-      <h3>Aantal gespeelde spellen</h3>
-    </div>
-    <div flex="50">
-      <h3>Aantal gespeelde spellen</h3>
-    </div>
-  </div>
+    <md-content layout-padding layout-wrap>
     <div layout="row">
-    <div flex="50">
-      <h3>Aantal gespeelde spellen</h3>
+      <div flex="50" ng-repeat="(key, value) in stats">
+        <h3>{{key}} zijn {{value}}</h3>
+      </div>
     </div>
-    <div flex="50">
-      <h3>Aantal gespeelde spellen</h3>
-    </div>
-  </div>
-  </md-content>
+    </md-content>
   </md-tab>
   <md-tab label="Alle spelletjes">
-  <md-content layout-padding layout-wrap layout="row">
-  <md-card ng-repeat="game in myGames" flex="20">
-        <img ng-src="/assets/img/title-dices.png" style="background: #78909C" class="md-card-image" alt="Washed Out">
+    <md-content layout-padding layout-wrap layout="column">
+      <section layout="column" ng-repeat="(key, value) in myGames | groupBy : 'state' ">
+        <section layout="row" > 
+          <h3>{{key}}</h3>   
+          <div class="mdl-layout-spacer" style="border-bottom: #FFFFFF"></div> 
+          <md-button ng-click="vm.toggleCollapseGames('invited')" class="md-icon-button launch">
+            <md-icon ng-if="vm.collapse[key]" md-svg-icon="assets/libs/bower_components/material-design-icons/hardware/svg/production/ic_keyboard_arrow_down_24px.svg"></md-icon>
+            <md-icon ng-if="vm.collapse[key]" md-svg-icon="assets/libs/bower_components/material-design-icons/hardware/svg/production/ic_keyboard_arrow_up_24px.svg"></md-icon>
+          </md-button>
+        </section>
+        <div class='md-padding' layout="row" layout-wrap>
+
+        <md-card ng-repeat="game in value">
+              <img ng-src="/assets/img/title-dices.png" class="md-card-image" alt="Washed Out">
         <md-card-title>
           <md-card-title-text>
             <span class="md-headline">{{game._id}}</span>
           </md-card-title-text>
         </md-card-title>
-        <md-card-content>
+        <md-card-content ng-if="game.state === 'finished'"> 
+              {{idThatHasWon(game)}} heeft het spel gewonnen met {{game.scores[0]['Total'] | number:2}} - {{game.scores[1]['Total'] | number:2}}
         </md-card-content>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button ng-href="http://localhost:3000/#/game/{{game._id}}">Speel verder</md-button>
-          <md-button>Action 2</md-button>
+        <md-card-actions layout="row" layout-align="end center" ng-if="game.state !== 'finished'">
+            <md-button class="md-accent md-raised md-hue-1" ng-href="http://localhost:3000/#/game/{{game._id}}">Speel verder</md-button>
+            <md-button class="md-accent md-raised md-hue-1">Action 2</md-button>
         </md-card-actions>
       </md-card>
+      </div>
+      </section>
+      <md-fab-speed-dial ng-class="demo.selectedMode" style=" position: fixed;
+    bottom: 1em;right: 1em;">
+        <md-fab-trigger>
+          <md-button aria-label="menu" class="md-fab md-warn">
+            <md-icon md-svg-src="/assets/libs/bower_components/material-design-icons/hardware/svg/production/ic_gamepad_24px.svg"></md-icon>
+          </md-button>
+        </md-fab-trigger>
+      </md-fab-speed-dial>
+   
 
-      <!--md-button class="md-raised" ng-href="http://localhost:3000/#/game/{{game._id}}" aria-label="description" md-ripple-size="auto" ng-repeat="game in myGames">{{game._id}}</md-button>-->
-  </md-content>
+        <!--md-button class="md-raised" ng-href="http://localhost:3000/#/game/{{game._id}}" aria-label="description" md-ripple-size="auto" ng-repeat="game in myGames">{{game._id}}</md-button>-->
+    </md-content>
+  </md-tab>
+  <md-tab label="Gebruikers">
+          <md-input-container class="md-icon-float md-block">
+      <md-icon md-svg-src="/assets/libs/bower_components/material-design-icons/action/svg/production/ic_search_24px.svg" class="name"></md-icon>
+      <input ng-model="searchUser" type="text">
+    </md-input-container>
+     <div class='md-padding' layout="row" layout-wrap>
+        <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" ng-repeat="user in allUsers">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{user.firstname}} {{user.lastname}}</span>
+            <span class="md-subhead">friend</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-lg card-media"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button ng-click="openProfile($index, $event)">Bekijk profiel</md-button>
+          <md-button ng-click="inviteForGame($index)">Invite for game</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
   </md-tab>
   </md-tabs>
   </md-content>

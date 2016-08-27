@@ -1,8 +1,14 @@
 angular.module('myApp')
-    .controller('menuController', ['ENV','authentication','$window','$pusher','$location', menuController]);
+    .controller('menuController', ['notificationService','ENV','authentication','$window','$location', menuController]);
 
-function menuController(ENV, authentication, $window,$pusher, $location) {
+function menuController(notificationService, ENV, authentication, $window, $location) {
     var vm = this;
+
+    vm.dropdownIsOpen = false;
+
+    vm.currentUser = authentication.currentUser();
+
+    console.log(vm.currentUser);
 
     vm.isLoggedIn = function(){
     	return authentication.isLoggedIn();
@@ -16,12 +22,7 @@ function menuController(ENV, authentication, $window,$pusher, $location) {
     	$window.location.href = 'http://localhost:3000/#/home';
     };
 
-      var client = new Pusher('12eadd40754c277d4d3b', {
-        cluster: 'eu',
-        encrypted: true
-    });
-    var pusher = $pusher(client);
-    var my_channel = pusher.subscribe('game');
+    var my_channel = notificationService.getClient().subscribe('game');
 
     my_channel.bind('changed', function(game) {
         console.log("notificatie ontvangen");

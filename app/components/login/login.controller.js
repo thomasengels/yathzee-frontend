@@ -1,9 +1,9 @@
 "use strict"
 angular.module('myApp').controller('loginController', loginController);
 
-loginController.$inject = ['$location','authentication', '$window'];
+loginController.$inject = ['$rootScope','$location','authentication', '$window'];
 
-function loginController($location, authentication, $window){
+function loginController($rootScope, $location, authentication, $window){
 	var vm = this;
 
 	vm.pageheader = {
@@ -36,8 +36,16 @@ function loginController($location, authentication, $window){
 			vm.formError = err;
 		})
 		.then(function(){
-			$location.search('page', null);
+			if($rootScope.returnToState === "/game/:gameId"){
+				$location.path("/game/" + $rootScope.returnToStateParams);
+			}
+			else{
+					$location.search('page', null);
 			$window.location.href = 'http://localhost:3000/#/home';
-		})
+			}
+		
+		}).catch(function(err){
+			vm.errors.other = err.message;
+		});
 	}
 }

@@ -1,35 +1,60 @@
 body{
-  background: #E0E0E0;
+  background: #C5CAE9 !important;
 }
 
+.dropdown{text-align:center;}
+.button, .dropdown-menu{margin:10px auto}
+.dropdown-menu{width:200px; left:50%; margin-left:-100px;}
+
 .loginFrom{
-  background: #FFFFFF;
+  background: #81D4FA;
   margin: auto;
   box-shadow: 10px 10px 5px #888888;
   margin-top: 5%;
   text-align: center;
+  min-width: 15%;
+}
+
+
+
+.scoreBoardHeader {
+  background-color: red;
 }
 
 #gameBoardView {
-    margin: auto;
+    margin: 0 auto;
+    text-align: center;
     margin-top: 10%;
     padding: 1.25em;  /* 20/16 */
-    background: #E0E0E0;
-    color: white;
-    max-width: 80%;
+    color: black;
 }
+
 
 #gameBoardView p{
   color: black;
   text-align: center;
 }
 
-#notificationmenu {
-    border: 10px solid transparent;
-    padding: 15px;
-    -webkit-border-image: url(/assets/img/notificationmenuBorder.png) 30 stretch; /* Safari 3.1-5 */
-    -o-border-image: url(/assets/img/notificationmenuBorder.png) 30 stretch; /* Opera 11-12.1 */
-    border-image: url(/assets/img/notificationmenuBorder.png) 30 stretch;
+md-card img {
+  height: 50% !important;
+  width: 50% !important;
+}
+
+main {
+  width: 80%;
+  margin: 0 auto;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  padding-bottom: 10%;
+  background-color: #FFFFFF;
+}
+
+.notificationmenu {
+    float:left;
+    border: 10px solid transparent !important;
+    padding: 15px !important;
+    -webkit-border-image: url(/assets/img/notifcationmenuBorder.png) 30 stretch !important; /* Safari 3.1-5 */
+    -o-border-image: url(/assets/img/notifcationmenuBorder.png) 30 stretch !important; /* Opera 11-12.1 */
+    border-image: url(/assets/img/notifcationmenuBorder.png) 30 stretch !important;
 }
 
 .dice{
@@ -46,23 +71,18 @@ body{
 }
 
 .diceSerie{
-	margin: auto;
-}
-
-.layout-wrap{
-  background: #E0E0E0;
+	margin: 0 auto;
 }
 
 #scoreBoardView {
 	border-radius: 15px;
     padding: 1.25em;  /* 20/16 */
-    background-color: #1d1d1d;
     float:left;
 }
 
 #scoreBoardView span {
     border-style: solid;
-    border-color: #FFFFFF !important;
+    border-color: #FFFFFF;
     border-width: 1px;
 }
 
@@ -84,13 +104,18 @@ body{
   text-align: center;
 }
 
+.TotalScore {
+  background-color: #00E676;
+}
+
+.NormalScore {
+  background-color: #A7FFEB;
+}
+
 @media screen and (max-width: 1300px) {
     #gameBoardView{
       max-width: 100%;
       margin: 0;
-    }
-    span{
-      border-bottom: solid 1px #fff;
     }
 }
 

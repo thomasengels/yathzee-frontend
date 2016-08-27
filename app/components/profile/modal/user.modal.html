@@ -1,0 +1,59 @@
+<md-dialog class="mdl-cell--6-col">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{dvm.user.firstname}} {{dvm.user.lastname}}</h2>
+            <span flex></span>
+            <button ng-click="dvm.cancel()" class="mdl-button mdl-js-button mdl-button--icon">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            
+<md-tabs md-dynamic-height="" md-border-bottom="">
+  <md-tab label="Profiel info">
+    <md-content layout-padding layout-wrap>
+      <div layout="row">
+        <div flex="20">
+          <img data-ng-src="data:image/jpg;base64,{{currentUser.avatar.data.join('')}}" onerror="this.src='assets/img/ic_person_outline_black_48dp.png'" style="width: 100px; height:auto; ">
+        </div>
+        <div flex="80">
+            <span>{{dvm.user.firstname}}</span>
+            <span>{{dvm.user.lastname}}</span>
+        </div>
+        
+      </div>
+      <span>{{dvm.user.email}}</span>
+    </md-content>
+  </md-tab>
+  <md-tab ng-if="dvm.user.canOthersViewMyProfile" label="Statistieken">
+    <md-content layout-padding layout-wrap>
+    <div layout="row">
+      <div flex="50">
+        <h3>Aantal gespeelde spellen</h3>
+      </div>
+      <div flex="50">
+        <h3>Aantal gespeelde spellen</h3>
+      </div>
+    </div>
+      <div layout="row">
+      <div flex="50">
+        <h3>Aantal gespeelde spellen</h3>
+      </div>
+      <div flex="50">
+        <h3>Aantal gespeelde spellen</h3>
+      </div>
+    </div>
+    </md-content>
+  </md-tab>
+  </md-tabs>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <button ng-click="dvm.inviteForGame()" class="mdl-button mdl-js-button mdl-button--icon">
+            <i class="material-icons">game</i>
+        </button>
+    </md-dialog-actions>
+</md-dialog>

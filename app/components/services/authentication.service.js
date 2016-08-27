@@ -32,9 +32,7 @@
         var token = getToken();
         var payload = JSON.parse($window.atob(token.split('.')[1]));
         return {
-          email : payload.email,
-          firstname : payload.firstname,
-          lastname : payload.lastname
+          email : payload.email
         };
       }
     };
